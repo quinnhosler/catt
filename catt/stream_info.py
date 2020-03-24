@@ -191,10 +191,11 @@ class StreamInfo:
 
         try:
             best_format = next(format_selector(info))
-        except StopIteration:
+        except StopIteration: 
             raise FormatError("No suitable format was found")
-        # This is thrown when url points directly to media file.
-        except KeyError:
+        except KeyError: # This is thrown when url points directly to media file or .m3u8
             best_format = info
+            # temp fix for m3u8. Would like to add more processing to ensure that a http adderss is identified
+            best_format['url'] = best_format['formats'][0]['manifest_url']
 
         return best_format["url"]
